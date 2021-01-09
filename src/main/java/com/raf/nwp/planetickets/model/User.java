@@ -1,5 +1,6 @@
 package com.raf.nwp.planetickets.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -24,6 +25,7 @@ public class User {
     @Column(nullable = false)
     private UserType userType;
     //TODO samo obican user ima bookings
+    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER)
     private List<Reservation> bookings = new ArrayList<>();
 
