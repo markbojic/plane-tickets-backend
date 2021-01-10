@@ -3,6 +3,7 @@ package com.raf.nwp.planetickets.bootstrap;
 import com.raf.nwp.planetickets.model.*;
 import com.raf.nwp.planetickets.repositories.*;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -46,14 +47,16 @@ public class BootstrapData implements CommandLineRunner {
         cityRepository.save(city2);
         cityRepository.save(city3);
 
-        User user = new User();
-        user.setUsername("test");
-        user.setUserType(UserType.USER);
-        user.setPassword("Abc1234");
-        userRepository.save(user);
-        User admin = new User();
+        BCryptPasswordEncoder passEncoder = new BCryptPasswordEncoder();
+
+        MyUser myUser = new MyUser();
+        myUser.setUsername("test");
+        myUser.setUserType(UserType.USER);
+        myUser.setPassword(passEncoder.encode("Abc1234"));
+        userRepository.save(myUser);
+        MyUser admin = new MyUser();
         admin.setUsername("admin");
-        admin.setPassword("Passw0rd");
+        admin.setPassword(passEncoder.encode("Passw0rd"));
         admin.setUserType(UserType.ADMIN);
         userRepository.save(admin);
 
@@ -73,8 +76,8 @@ public class BootstrapData implements CommandLineRunner {
 
         flight1.addTicket(tck1);
         flightRepository.save(flight1);
-        System.out.println(flight1.getSize());
-        System.out.println(flightRepository.findById(Long.parseLong("1")).get().getTickets().size());
+        //System.out.println(flight1.getSize());
+        //System.out.println(flightRepository.findById(Long.parseLong("1")).get().getTickets().size());
 
         Reservation rsvr = new Reservation();
         rsvr.setAvailable(true);
@@ -82,9 +85,9 @@ public class BootstrapData implements CommandLineRunner {
         rsvr.setFlight(flight1);
         reservationRepository.save(rsvr);
 
-        user.addBooking(rsvr);
-        userRepository.save(user);
-        System.out.println(userRepository.findById(Long.parseLong("1")).get().getBookings().size());
+        myUser.addBooking(rsvr);
+        userRepository.save(myUser);
+        //System.out.println(userRepository.findById(Long.parseLong("1")).get().getBookings().size());
 
         System.out.println("Data loaded!");
     }

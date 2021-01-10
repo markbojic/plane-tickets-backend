@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "USERS")
-public class User {
+public class MyUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +24,7 @@ public class User {
     private String password;
     @Column(nullable = false)
     private UserType userType;
-    //TODO samo obican user ima bookings
+    //samo obican user ima bookings
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER)
     private List<Reservation> bookings = new ArrayList<>();

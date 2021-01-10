@@ -1,6 +1,6 @@
 package com.raf.nwp.planetickets.services;
 
-import com.raf.nwp.planetickets.model.User;
+import com.raf.nwp.planetickets.model.MyUser;
 import com.raf.nwp.planetickets.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService implements IService<User, Long> {
+public class UserService implements IService<MyUser, Long> {
 
     private final UserRepository userRepository;
 
@@ -17,18 +17,18 @@ public class UserService implements IService<User, Long> {
     }
 
     @Override
-    public User save(User user) {
-        return userRepository.save(user);
+    public MyUser save(MyUser myUser) {
+        return userRepository.save(myUser);
     }
 
     @Override
-    public Optional<User> findById(Long userId) {
+    public Optional<MyUser> findById(Long userId) {
         return userRepository.findById(userId);
     }
 
     @Override
-    public List<User> findAll() {
-        return (List<User>) userRepository.findAll();
+    public List<MyUser> findAll() {
+        return (List<MyUser>) userRepository.findAll();
     }
 
     @Override

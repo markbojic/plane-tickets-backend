@@ -1,4 +1,4 @@
-package com.raf.nwp.planetickets.security;
+package com.raf.nwp.planetickets.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
