@@ -1,6 +1,7 @@
 package com.raf.nwp.planetickets.controllers;
 
 import com.raf.nwp.planetickets.model.Ticket;
+import com.raf.nwp.planetickets.repositories.FlightRepository;
 import com.raf.nwp.planetickets.services.TicketService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +16,11 @@ import java.util.Optional;
 public class TicketRestController {
 
     private final TicketService ticketService;
+    private final FlightRepository flightRepository;
 
-    public TicketRestController(TicketService ticketService) {
+    public TicketRestController(TicketService ticketService, FlightRepository flightRepository) {
         this.ticketService = ticketService;
+        this.flightRepository = flightRepository;
     }
 
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -39,7 +42,9 @@ public class TicketRestController {
     public ResponseEntity<?> deleteTicket(@PathVariable Long id) {
         Optional<Ticket> optionalTicket = ticketService.findById(id);
         if(optionalTicket.isPresent()) {
-            //TODO dodaj da se brise sta bude trebalo
+            optionalTicket.get().getFlight().removeTicket(optionalTicket.get());
+            flightRepository.save(optionalTicket.get().getFlight());
+
             ticketService.deleteById(id);
         } else {
             return ResponseEntity.notFound().build();

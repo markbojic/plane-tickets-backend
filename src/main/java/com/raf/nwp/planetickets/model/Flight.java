@@ -29,7 +29,11 @@ public class Flight {
         return this.tickets.size();
     }
 
-    public void addTicket(Ticket ticket){
+    public void addTicket(Ticket ticket) {
         tickets.add(ticket);
+    }
+
+    public void removeTicket(Ticket ticket) {
+        tickets.remove(ticket);
     }
 }

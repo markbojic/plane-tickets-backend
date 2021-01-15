@@ -4,6 +4,7 @@ import com.raf.nwp.planetickets.model.MyUser;
 import com.raf.nwp.planetickets.services.UserService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,9 +16,11 @@ import java.util.Optional;
 public class UserRestController {
 
     private final UserService userService;
+    private BCryptPasswordEncoder passEncoder;
 
     public UserRestController(UserService userService) {
         this.userService = userService;
+        this.passEncoder = new BCryptPasswordEncoder();
     }
 
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -27,6 +30,7 @@ public class UserRestController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public MyUser createUser(@RequestBody MyUser myUser) {
+        myUser.setPassword(passEncoder.encode(myUser.getPassword()));
         return userService.save(myUser);
     }
 

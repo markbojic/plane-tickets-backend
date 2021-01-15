@@ -2,6 +2,8 @@ package com.raf.nwp.planetickets.services;
 
 import com.raf.nwp.planetickets.model.Airline;
 import com.raf.nwp.planetickets.repositories.AirlineRepository;
+import com.raf.nwp.planetickets.repositories.FlightRepository;
+import com.raf.nwp.planetickets.repositories.TicketRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
