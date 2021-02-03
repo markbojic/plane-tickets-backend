@@ -1,5 +1,6 @@
 package com.raf.nwp.planetickets.controllers;
 
+import com.raf.nwp.planetickets.model.PaginationResponse;
 import com.raf.nwp.planetickets.model.Ticket;
 import com.raf.nwp.planetickets.repositories.FlightRepository;
 import com.raf.nwp.planetickets.services.TicketService;
@@ -26,6 +27,15 @@ public class TicketRestController {
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Ticket> getAllTickets() {
         return ticketService.findAll();
+    }
+
+    @GetMapping(value = "/getpage", produces = MediaType.APPLICATION_JSON_VALUE)
+    public PaginationResponse getTickets(@RequestParam String currPage, @RequestParam String tixPerPage, @RequestParam String origin, @RequestParam String destination, @RequestParam String departOn, @RequestParam String returnOn) {
+        if(origin.equals("") && destination.equals("") && departOn.equals("") && returnOn.equals("")) {
+            return ticketService.loadPage(currPage, tixPerPage, ticketService.findAll());
+        } else {
+            return ticketService.loadPage(currPage, tixPerPage, ticketService.findByGivenParams(origin, destination, departOn, returnOn));
+        }
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

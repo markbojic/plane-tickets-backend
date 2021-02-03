@@ -1,5 +1,7 @@
 package com.raf.nwp.planetickets.services;
 
+import com.raf.nwp.planetickets.model.PageInfo;
+import com.raf.nwp.planetickets.model.PaginationResponse;
 import com.raf.nwp.planetickets.model.Ticket;
 import com.raf.nwp.planetickets.repositories.TicketRepository;
 import org.springframework.stereotype.Service;
@@ -81,4 +83,26 @@ public class TicketService implements IService<Ticket, Long> {
 
         return all;
     }
+
+    public PaginationResponse loadPage(String currPage, String tixPerPage, List<Ticket> tickets) {
+        int intTixPerPage = Integer.parseInt(tixPerPage);
+        int intCurrPage = Integer.parseInt(currPage);
+
+        int numOfPages = (int) Math.ceil(tickets.size() / intTixPerPage);
+        int index_from = (intCurrPage - 1) * intTixPerPage;
+        int index_to = intCurrPage * intTixPerPage;
+        if(index_to > tickets.size()) index_to = tickets.size();
+        List<Ticket> response = tickets.subList(index_from, index_to);
+
+        PaginationResponse pagRes = new PaginationResponse();
+        pagRes.setTickets(response);
+        PageInfo pageInfo = new PageInfo();
+        pageInfo.setTixPerPage(intTixPerPage);
+        pageInfo.setCurrPage(intCurrPage);
+        pageInfo.setMaxPages(numOfPages);
+        pagRes.setPageInfo(pageInfo);
+
+        return pagRes;
+    }
+
 }
