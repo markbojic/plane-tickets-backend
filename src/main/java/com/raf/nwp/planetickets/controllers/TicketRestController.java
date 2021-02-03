@@ -51,4 +51,9 @@ public class TicketRestController {
         }
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Ticket> searchTickets(@RequestParam String origin, @RequestParam String destination, @RequestParam String departOn, @RequestParam String returnOn) {
+        return ticketService.findByGivenParams(origin, destination, departOn, returnOn);
+    }
 }
