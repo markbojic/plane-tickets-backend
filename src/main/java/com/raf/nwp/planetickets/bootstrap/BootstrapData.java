@@ -40,9 +40,12 @@ public class BootstrapData implements CommandLineRunner {
         airline2.setName("WizzAir");
         Airline airline3 = new Airline();
         airline3.setName("United Airlines");
+        Airline airline4 = new Airline();
+        airline4.setName("Lufthansa");
         airlineRepository.save(airline);
         airlineRepository.save(airline2);
         airlineRepository.save(airline3);
+        airlineRepository.save(airline4);
 
         City city1 = new City();
         city1.setName("Belgrade");
@@ -54,11 +57,17 @@ public class BootstrapData implements CommandLineRunner {
         city4.setName("Los Angeles");
         City city5 = new City();
         city5.setName("Amsterdam");
+        City city6 = new City();
+        city6.setName("Berlin");
+        City city7 = new City();
+        city7.setName("Barcelona");
         cityRepository.save(city1);
         cityRepository.save(city2);
         cityRepository.save(city3);
         cityRepository.save(city4);
         cityRepository.save(city5);
+        cityRepository.save(city6);
+        cityRepository.save(city7);
 
         MyUser myUser = new MyUser();
         myUser.setUsername("elonmusk");
@@ -91,6 +100,14 @@ public class BootstrapData implements CommandLineRunner {
         flight5.setOrigin(city1);
         flight5.setDestination(city5);
         flightRepository.save(flight5);
+        Flight flight6 = new Flight();
+        flight6.setOrigin(city6);
+        flight6.setDestination(city7);
+        flightRepository.save(flight6);
+        Flight flight7 = new Flight();
+        flight7.setOrigin(city7);
+        flight7.setDestination(city1);
+        flightRepository.save(flight7);
 
         Ticket tck1 = new Ticket();
         tck1.setAirline(airline);
@@ -130,6 +147,21 @@ public class BootstrapData implements CommandLineRunner {
         tck5.setReturnOn(sdf.parse("13-5-2021"));
         tck5.setFlight(flight5);
         ticketRepository.save(tck5);
+        Ticket tck6 = new Ticket();
+        tck6.setAirline(airline4);
+        tck6.setCount(Long.parseLong("120"));
+        tck6.setOneWay(false);
+        tck6.setDepartOn(sdf.parse("6-6-2021"));
+        tck6.setReturnOn(sdf.parse("1-7-2021"));
+        tck6.setFlight(flight6);
+        ticketRepository.save(tck6);
+        Ticket tck7 = new Ticket();
+        tck7.setAirline(airline2);
+        tck7.setCount(Long.parseLong("160"));
+        tck7.setOneWay(true);
+        tck7.setDepartOn(sdf.parse("18-8-2022"));
+        tck7.setFlight(flight7);
+        ticketRepository.save(tck7);
 
         flight1.addTicket(tck1);
         flightRepository.save(flight1);
@@ -143,6 +175,10 @@ public class BootstrapData implements CommandLineRunner {
         flightRepository.save(flight4);
         flight5.addTicket(tck5);
         flightRepository.save(flight5);
+        flight6.addTicket(tck6);
+        flightRepository.save(flight6);
+        flight7.addTicket(tck7);
+        flightRepository.save(flight7);
 
         Reservation rsvr = new Reservation();
         rsvr.setAvailable(true);
